@@ -5,11 +5,10 @@ public class Ingredient {
 	private int quantite;
 	private Unite unite;
 
-	public Ingredient(String nom, int quantite, Unite unite) {
-		this.nom=nom;
-		this.quantite = quantite;
-		this.unite = unite; 
-		
+	public Ingredient(String nom, Unite unite) {
+		this.nom = nom;
+		this.unite = unite;
+
 	}
 
 	public String getNom() {
@@ -23,6 +22,14 @@ public class Ingredient {
 	public Unite getUnite() {
 		return unite;
 	}
+	
+	
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
 
+	public String afficherIngredient() {
+		return (quantite + " " + unite.toString() + " de " + nom);
+	}
 
 }
