@@ -2,7 +2,7 @@ package ingredients;
 
 public class Ingredient {
 	private String nom;
-	private int quantite;
+	private double quantite;
 	private Unite unite;
 
 	public Ingredient(String nom, Unite unite) {
@@ -15,21 +15,16 @@ public class Ingredient {
 		return nom;
 	}
 
-	public int getQuantite() {
+	public double getQuantite() {
 		return quantite;
 	}
 
 	public Unite getUnite() {
 		return unite;
 	}
-	
-	
-	public void setQuantite(int quantite) {
-		this.quantite = quantite;
-	}
 
-	public String afficherIngredient() {
-		return (quantite + " " + unite.toString() + " de " + nom);
+	public void setQuantite(double quantite) {
+		this.quantite = quantite;
 	}
 
 }

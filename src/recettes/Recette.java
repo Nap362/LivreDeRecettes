@@ -1,20 +1,21 @@
 package recettes;
 
 import ingredients.Ingredient;
+import ingredients.ListeIngredients;
+import ingredients.Unite;
 
-public class Recette {
-	private static final int INGREDIENTS_MAX = 20;
+public class Recette extends ListeIngredients {
 	private static final int INSTRUCTIONS_MAX = 20;
+	private static final int INGREDIENTS_MAX = 20;
 	private String nom;
 	private Type type;
-	private int nbIngredients = 0;
 	private int nbInstructions = 0;
-	private Ingredient[] ingredients = new Ingredient[INGREDIENTS_MAX];
 	private String[] instructions = new String[INSTRUCTIONS_MAX];
 	private int personnes;
 	private int temps;
 
 	public Recette(String nom, Type type, int personnes, int temps) {
+		super(INGREDIENTS_MAX);
 		this.nom = nom;
 		this.type = type;
 		this.personnes = personnes;
@@ -41,12 +42,6 @@ public class Recette {
 		this.temps = temps;
 	}
 
-	public void ajouterIngredient(Ingredient ingredient, int quantite) {
-		ingredient.setQuantite(quantite);
-		ingredients[nbIngredients] = ingredient;
-		nbIngredients++;
-	}
-
 	public void ajouterInstruction(String instruction, int numero) {
 		if ((numero - 1) < nbInstructions) {
 			int i = numero - 1;
@@ -59,32 +54,51 @@ public class Recette {
 		nbInstructions++;
 	}
 
-	public void supprimerIngredient(String nom) {
-		nbIngredients--;
-		int i = 0;
-		while (i < nbIngredients && ingredients[i].getNom() != nom) {
-			i++;
-		}
-		ingredients[i] = ingredients[nbIngredients];
-		ingredients[nbIngredients] = null;
-	}
-
 	public void supprimerInstruction(int numero) {
-		nbInstructions--;
-		int i = numero - 1;
-		while (i < nbInstructions) {
-			instructions[i] = instructions[i + 1];
-			i++;
+		if (numero<nbInstructions) {
+			nbInstructions--;
+			int i = numero - 1;
+			while (i < nbInstructions) {
+				instructions[i] = instructions[i + 1];
+				i++;
+			}
+			instructions[nbInstructions] = null;
 		}
-		instructions[nbInstructions] = null;
+	}
+	
+	public String afficherListeIngredients(int personnesVoulues) {
+		String affichage = "";
+		double facteurQuantite = (float) personnesVoulues / personnes;
+		for (int i = 0; i < nbIngredients; i++) {
+			double quantite = conversionQuantite(ingredients[i].getQuantite() * facteurQuantite);
+			String quantiteAffichee ="";
+			if (quantite >= 2 || quantite == 1 || quantite == 0) {
+				quantiteAffichee += (int) quantite;
+			}
+			else {
+				quantiteAffichee += quantite;
+			}
+			if (ingredients[i].getUnite() == Unite.SANS) {
+				affichage+=" - " + quantiteAffichee + " " + ingredients[i].getNom() + "(s)" + "\n";
+			} else {
+				affichage+=" - " + quantiteAffichee + " " + ingredients[i].getUnite().toString() + " de " + ingredients[i].getNom()+ "\n";
+			}
+		}
+		return affichage;
 	}
 
-	public void afficherRecette() {
-		String affichage = "\t" + nom + " :\n" + "Pour " + personnes + " personnes\n" + "Temps de réalisation : "
-				+ temps + "\n";
-		for (int i = 0; i < nbIngredients; i++) {
-			affichage += " - " + ingredients[i].afficherIngredient() + "\n";
+	public void afficherRecette(int personnesVoulues) {
+		String tempsAffiche = temps + " min";
+		if (temps >= 60) {
+			tempsAffiche = temps / 60 + "h";
+			if (temps % 60 < 10) {
+				tempsAffiche += "0";
+			}
+			tempsAffiche += temps % 60;
 		}
+		String affichage = "\t" + nom + " :\n" + "Pour " + personnesVoulues + " personnes\n" + "Temps de réalisation : "
+				+ tempsAffiche + "\n";
+		affichage += afficherListeIngredients(personnesVoulues);
 		affichage += "Réalisation :\n";
 		for (int i = 0; i < nbInstructions; i++) {
 			affichage += (i + 1) + ". " + instructions[i] + "\n";
