@@ -1,11 +1,16 @@
 package tests;
 
+import recettes.ListeDesRecettes;
 import recettes.Recette;
 import recettes.Type;
 import ingredients.Ingredient;
 import ingredients.Unite;
 
 public class Test {
+	private ListeDesRecettes livreRecettes;
+	private Recette dessert;
+	
+	
 	public static void main(String[] args) {
 		Recette gateauNature = new Recette("Gâteau nature", Type.DESSERT, 4,35);
 		Ingredient sucre = new Ingredient("sucre", Unite.CAS);
@@ -28,6 +33,7 @@ public class Test {
 		gateauNature.afficherRecette(4);
 		gateauNature.supprimerInstruction(3);
 		gateauNature.afficherRecette(6);
+		gateauNature.afficherRecette(4);
 	}
 	
 }
