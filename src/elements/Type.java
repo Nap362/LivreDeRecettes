@@ -1,4 +1,4 @@
-package recettes;
+package elements;
 
 public enum Type {
 	DESSERT("Dessert"), VIANDE("Viande"), POISSON("Poisson"), VEGE("Végétarien");

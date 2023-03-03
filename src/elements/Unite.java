@@ -1,4 +1,4 @@
-package ingredients;
+package elements;
 
 public enum Unite {
 	KG("kg"), G("g"), MG("mg"), L("L"), CL("cL"), ML("mL"), PINCEE("pincée(s)"), CAS("cuillère(s) à soupe"),

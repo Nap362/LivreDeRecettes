@@ -1,6 +1,9 @@
-package recettes;
+package cuisine;
 
-public class ListeDesRecettes {
+import elements.Recette;
+import elements.Type;
+
+public class LivreRecette {
 	private static final int NB_MAX_RECETTES = 100;
 	private Recette[] recettes = new Recette[NB_MAX_RECETTES];
 	private int nbRecettes = 0;
@@ -21,15 +24,15 @@ public class ListeDesRecettes {
 	}
 	
 	public void supprimerRecette(int rang) {
+		nbRecettes--;
 		if (rang<nbRecettes) {
-			nbRecettes--;
 			int i = rang - 1;
 			while (i < nbRecettes) {
 				recettes[i] = recettes[i + 1];
 				i++;
 			}
-			recettes[nbRecettes] = null;
 		}
+		recettes[nbRecettes] = null;
 	}
 	
 	public void afficherListeRecettes() {

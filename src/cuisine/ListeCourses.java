@@ -1,20 +1,22 @@
-package ingredients;
+package cuisine;
 
 import java.util.Objects;
 
-public class ListeIngredients {
+import elements.Ingredient;
+
+public class ListeCourses {
 	protected int NB_MAX_INGREDIENTS;
 	protected int nbIngredients = 0;
 	protected Ingredient[] ingredients;
 	
 	/* Constructeur pour les listes de courses */
-	public ListeIngredients() {
+	public ListeCourses() {
 		this.NB_MAX_INGREDIENTS = 50;
 		this.ingredients = new Ingredient[NB_MAX_INGREDIENTS];
 	}
 	
 	/* Constructeur pour les listes dans les recettes */
-	public ListeIngredients(int nbMaxIngredients) {
+	public ListeCourses(int nbMaxIngredients) {
 		this.NB_MAX_INGREDIENTS = nbMaxIngredients;
 		this.ingredients = new Ingredient[NB_MAX_INGREDIENTS];
 	}
@@ -29,8 +31,7 @@ public class ListeIngredients {
 		ingredients[nbIngredients] = null;
 	}
 
-	public void ajouterIngredient(Ingredient ingredient, double quantite) {
-		ingredient.setQuantite(quantite);
+	public void ajouterIngredient(Ingredient ingredient) {
 		if (nbIngredients < NB_MAX_INGREDIENTS) {
 			ingredients[nbIngredients] = ingredient;
 			nbIngredients++;

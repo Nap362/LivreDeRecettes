@@ -1,18 +1,16 @@
-package recettes;
+package elements;
 
-import ingredients.Ingredient;
-import ingredients.ListeIngredients;
-import ingredients.Unite;
+import cuisine.OperationListe;
+import cuisine.Liste;
+import cuisine.ListeCourses;
 
-public class Recette extends ListeIngredients {
+public class Recette extends ListeCourses {
 	private static final int INGERDIENTS_MAX = 20;
-	private static final int INSTRUCTIONS_MAX = 20;
 	private String nom;
 	private Type type;
-	private int nbInstructions = 0;
-	private String[] instructions = new String[INSTRUCTIONS_MAX];
 	private int personnes;
 	private int temps;
+	private Instructions instructions = new Instructions();
 
 	public Recette(String nom, Type type, int personnes, int temps) {
 		super(INGERDIENTS_MAX);
@@ -42,27 +40,40 @@ public class Recette extends ListeIngredients {
 		this.temps = temps;
 	}
 
-	public void ajouterInstruction(String instruction, int numero) {
-		if ((numero - 1) < nbInstructions) {
-			int i = numero - 1;
-			while (i < nbInstructions) {
-				instructions[i + 1] = instructions[i];
-				i++;
-			}
-		}
-		instructions[numero - 1] = instruction;
-		nbInstructions++;
-	}
+	private class Instructions extends Liste<String> {
+		private static final int INSTRUCTIONS_MAX = 20;
 
-	public void supprimerInstruction(int numero) {
-		if (numero < nbInstructions) {
-			nbInstructions--;
-			int i = numero - 1;
-			while (i < nbInstructions) {
-				instructions[i] = instructions[i + 1];
-				i++;
+		public Instructions() {
+			super(new String[INSTRUCTIONS_MAX], INSTRUCTIONS_MAX);
+		}
+
+		public void supprimer(String numero) {
+			nbrElements--;
+			int indice = Integer.parseInt(numero) - 1;
+			if (indice < nbrElements) {
+				for (int i = indice; i<nbrElements; i++) {
+					elements[i] = elements[i + 1];
+				}
 			}
-			instructions[nbInstructions] = null;
+			elements[nbrElements] = null;
+		}
+
+		@Override
+		public String afficherListe() {
+			//TODO
+			return null;
+		}
+
+		public void inserer(String instruction, int numero) {
+			if ((numero - 1) < nbrInstructions) {
+				int i = numero - 1;
+				while (i < nbrInstructions) {
+					instructions[i + 1] = instructions[i];
+					i++;
+				}
+			}
+			instructions[numero - 1] = instruction;
+			nbrInstructions++;
 		}
 	}
 
@@ -108,9 +119,7 @@ public class Recette extends ListeIngredients {
 			ingredients[i].setQuantite(ingredients[i].getQuantite() / personnesVoulues * personnes);
 		}
 		affichage += "\nRéalisation :\n";
-		for (int i = 0; i < nbInstructions; i++) {
-			affichage += (i + 1) + ". " + instructions[i] + "\n";
-		}
+		affichage += instructions.afficherListe();
 		System.out.println(affichage);
 	}
 
