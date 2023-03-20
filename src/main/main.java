@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import cuisine.LivreRecette;
-import elements.Ingredient;
+import elements.Aliment;
+import elements.LivreRecette;
 import elements.Recette;
 import elements.Type;
 import elements.Unite;
@@ -170,7 +170,7 @@ public class main {
 			String unite = inputTexte(
 					"Entrez son unité en suivant le format :\n KG | G | MG | L | CL | ML | PINCEE | CAS | CAC | SACHET | SANS\n");
 			double quantite = Double.parseDouble(inputTexte("Entrez la quantité :"));
-			recette.ajouterIngredient(new Ingredient(nomIngredient, Unite.valueOf(unite), quantite));
+			recette.ajouterIngredient(new Aliment(nomIngredient, Unite.valueOf(unite), quantite));
 	
 			System.out.println("Voulez vous ajouter un autre ingrédient ?");
 			suite=questionFerme();

@@ -9,6 +9,7 @@ public enum Type {
 		this.nom = nom;
 	}
 
+	@Override
 	public String toString() {
 		return nom;
 	}
