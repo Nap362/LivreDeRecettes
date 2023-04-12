@@ -1,14 +1,19 @@
 package elements;
 
-public class Aliment extends Element {
+public class Aliment{
+	private String nom;
 	private double quantite;
 	private Unite unite;
 
 	public Aliment(String nom, Unite unite, double quantite) {
-		super(nom);
+		this.nom = nom;
 		this.unite = unite;
 		this.quantite = quantite;
 
+	}
+	
+	public String getNom() {
+		return nom;
 	}
 
 	public double getQuantite() {
@@ -23,23 +28,23 @@ public class Aliment extends Element {
 		this.quantite = quantite;
 	}
 
-	@Override
+
 	public String afficherDansListe() {
-		return super.getNom() + " : " + quantite + " " + unite.toString() + "(s)";
+		return nom + " : " + quantite + " " + unite.toString() + "(s)";
 	}
 	
 	/* Affichage pour un certain nombre de personnes (facteur = nbrPersonnesModifie/nbrPersonnesInitial
 	 * Permet de ne pas modifier les quantités enregistrées */
-	public String afficherQuantiteModifiee(double facteur) {
+	public String afficherQuantiteModifiee(int personnes) {
 		//Valeur arrondie au quart
-		double quantiteProvisoire = Math.round((quantite * facteur) * 4) / 4f;
+		double quantiteAffichee = Math.round((quantite*personnes) * 4) / 4f;
 		StringBuilder texte = new StringBuilder();
-		texte.append(super.getNom() + " : ");
-		if (quantiteProvisoire>5 || quantiteProvisoire==(int)quantiteProvisoire) {
-			texte.append((int) quantiteProvisoire);
+		texte.append(nom + " : ");
+		if (quantiteAffichee>5 || quantiteAffichee==(int)quantiteAffichee) {
+			texte.append((int) quantiteAffichee);
 		}
 		else {
-			texte.append(quantiteProvisoire);
+			texte.append(quantiteAffichee);
 		}
 		texte.append(" " + unite.toString());
 		return texte.toString();

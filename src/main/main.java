@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import elements.Aliment;
+import recettes.Dessert;
 import elements.LivreRecette;
-import elements.Recette;
+import recettes.Poisson;
+import recettes.Recette;
 import elements.Type;
 import elements.Unite;
+import recettes.Vegetarien;
+import recettes.Viande;
 
 public class main {
 	private static LivreRecette livreDeRecettes;
@@ -193,8 +197,29 @@ public class main {
 	}
 
 	public static void main(String[] args) {
-		livreDeRecettes = new LivreRecette();
-		menu();
+		LivreRecette<Recette> livre = new LivreRecette<>(new Recette[10], "recettes");
+		LivreRecette<Viande> livreViande = new LivreRecette<>(new Viande[10], "recettes de viandes");
+		LivreRecette<Poisson> livrePoisson = new LivreRecette<>(new Poisson[10], "recettes de poissons");
+		LivreRecette<Vegetarien> livreVege = new LivreRecette<>(new Vegetarien[10], "recettes végétariennes");
+		LivreRecette<Dessert> livreDessert = new LivreRecette<>(new Dessert[10], "recettes de desserts");
+		
+		Viande viande = new Viande("Boeuf bourgignon", 300, "BOEUF");
+		Poisson poisson = new Poisson("Cabillaud en sauce", 120, "CABILLAUD");
+		Vegetarien vege = new Vegetarien("Pates au gruyère", 20, false);
+		Dessert dessert = new Dessert("Gateau au chocolat", 30);
+		livre.ajouter(viande);
+		livre.ajouter(poisson);
+		livre.ajouter(vege);
+		livre.ajouter(dessert);
+		livreViande.ajouter(viande);
+		livrePoisson.ajouter(poisson);
+		livreVege.ajouter(vege);
+		livreDessert.ajouter(dessert);
+		System.out.println(livre.afficherListe());
+		System.out.println(livreViande.afficherListe());
+		System.out.println(livrePoisson.afficherListe());
+		System.out.println(livreVege.afficherListe());
+		System.out.println(livreDessert.afficherListe());
 	}
 
 }

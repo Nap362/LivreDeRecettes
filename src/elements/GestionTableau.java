@@ -1,6 +1,6 @@
 package elements;
 
-public interface OperationsListe<T> {
+public interface GestionTableau<T> {
 	
 	public void ajouter(T element);
 	

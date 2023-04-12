@@ -1,15 +1,19 @@
 package elements;
 
-public class LivreRecette implements OperationsListe<Recette>{
+import recettes.Recette;
+
+public class LivreRecette<T extends Recette> implements GestionTableau<T>{
 	private static final int NB_MAX_RECETTES = 100;
-	private Recette[] recettes;
+	private String nom;
+	private T[] recettes;
 	private int nbRecettes = 0;
 	
-	public LivreRecette() {
-		this.recettes = new Recette[NB_MAX_RECETTES];
+	public LivreRecette(T[] recettes, String nom) {
+		this.recettes = recettes;
+		this.nom = nom;
 	}
 	
-	public Recette getRecette(int i) {
+	public T getRecette(int i) {
 		return recettes[i];
 	}
 	
@@ -18,7 +22,7 @@ public class LivreRecette implements OperationsListe<Recette>{
 	}
 
 	@Override
-	public void ajouter(Recette recette) {
+	public void ajouter(T recette) {
 		if (nbRecettes<NB_MAX_RECETTES) {
 			recettes[nbRecettes]=recette;
 			nbRecettes++;
@@ -39,7 +43,7 @@ public class LivreRecette implements OperationsListe<Recette>{
 	@Override
 	public String afficherListe() {
 		StringBuilder affichage = new StringBuilder();
-		affichage.append("\tVos recettes :\n");
+		affichage.append("\tVos " + nom +" :\n");
 		for (int i=0; i<nbRecettes;i++) {
 			affichage.append((i+1)+". " + recettes[i].getNom() + "\n");
 		}
@@ -56,16 +60,7 @@ public class LivreRecette implements OperationsListe<Recette>{
 		}
 		return indiceRecetteRecherchee;
 	}
-	
-	public String filtrerParType(Type type) {
-		StringBuilder affichage = new StringBuilder();
-		for (int i=0; i<nbRecettes; i++) {
-			if (recettes[i].getType()==type) {
-				affichage.append(" ~ " + recettes[i].getNom() + "\n");
-			}
-		}
-		return affichage.toString();
-	}
+
 	
 	public String filtrerEviterIngredients(String[] ingredientsAEviter) {
 		StringBuilder affichage = new StringBuilder();

@@ -11,6 +11,6 @@ public class ControlCreerRecette {
 	
 	public void creerRecette() {
 		//TODO creer recette
-	}s
+	}
 	
 }

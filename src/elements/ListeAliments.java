@@ -1,6 +1,6 @@
 package elements;
 
-public class ListeAliments implements OperationsListe<Aliment> {
+public class ListeAliments implements GestionTableau<Aliment> {
 	private int NB_MAX_ALIMENTS;
 	private int nbrAliments = 0;
 	private Aliment[] aliments;
@@ -39,11 +39,11 @@ public class ListeAliments implements OperationsListe<Aliment> {
 		return affichage.toString();
 	}
 	
-	/* Affichage de la liste pour un certain nombre de personnes (facteur = nbrPersonnesModifie/nbrPersonnesInitial*/
-	public String afficherListeQuantite(double facteur) {
+	/* Affichage de la liste pour un certain nombre de personnes*/
+	public String afficherListePersonne(int personnes) {
 		StringBuilder affichage = new StringBuilder();
 		for (int i = 0; i < nbrAliments; i++) {
-			affichage.append(" - " + aliments[i].afficherQuantiteModifiee(facteur) + "\n");
+			affichage.append(" - " + aliments[i].afficherQuantiteModifiee(personnes) + "\n");
 		}
 		return affichage.toString();
 	}
