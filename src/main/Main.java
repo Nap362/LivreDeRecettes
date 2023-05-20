@@ -23,12 +23,11 @@ import control.ControlModifierAliment;
 import control.ControlSupprimerAliment;
 import control.ControlSupprimerRecette;
 import control.ControlVoirRecette;
-import elements.Aliment;
 import elements.ListeAliments;
 import elements.LivreRecette;
 import recettes.Recette;
 
-public class main {
+public class Main {
 	private static BoundaryMenuPrincipalAssistantCuisine assistant;
 
 	public static void main(String[] args) {
@@ -60,14 +59,16 @@ public class main {
 				boundarySupprimerAlimentPlacard, boundaryModifierAlimentPlacard);
 		ControlFiltrerRecettes controlFiltrerRecettes = new ControlFiltrerRecettes(livreRecette, placard);
 		BoundaryFiltrerRecettes boundaryFiltrerRecettes = new BoundaryFiltrerRecettes(controlFiltrerRecettes);
-		BoundaryMenuLivreRecette boundaryMenuLivreRecette = new BoundaryMenuLivreRecette(boundaryVoirRecette, boundarySupprimerRecette, boundaryFiltrerRecettes);
-		
+		BoundaryMenuLivreRecette boundaryMenuLivreRecette = new BoundaryMenuLivreRecette(boundaryVoirRecette,
+				boundarySupprimerRecette, boundaryFiltrerRecettes);
+
 		ListeAliments listeCourses = new ListeAliments(50);
 		ControlAfficherListeAliments controlAfficherListeCourses = new ControlAfficherListeAliments(listeCourses);
 		BoundaryAfficherListeAliments boundaryAfficherListeAlimentsListeCourses = new BoundaryAfficherListeAliments(
 				controlAfficherListeCourses);
 		ControlAjouterAliment controlAjouterAlimentListeCourses = new ControlAjouterAliment(listeCourses);
-		BoundaryAjouterAliment boundaryAjouterAlimentListeCourses = new BoundaryAjouterAliment(controlAjouterAlimentListeCourses);
+		BoundaryAjouterAliment boundaryAjouterAlimentListeCourses = new BoundaryAjouterAliment(
+				controlAjouterAlimentListeCourses);
 		ControlSupprimerAliment controlSupprimerAlimentListeCourses = new ControlSupprimerAliment(listeCourses);
 		BoundarySupprimerAliment boundarySupprimerAlimentListeCourses = new BoundarySupprimerAliment(
 				controlSupprimerAlimentListeCourses);
@@ -75,12 +76,13 @@ public class main {
 		BoundaryModifierAliment boundaryModifierAlimentListeCourses = new BoundaryModifierAliment(
 				controlModifierAlimentListeCourses);
 		ControlFaireCourses controlFaireCourses = new ControlFaireCourses(placard, listeCourses);
-		BoundaryMenuListeCourses boundaryMenuListeCourses = new BoundaryMenuListeCourses(boundaryAjouterAlimentListeCourses,
-				boundarySupprimerAlimentListeCourses, boundaryModifierAlimentListeCourses, controlFaireCourses);
+		BoundaryMenuListeCourses boundaryMenuListeCourses = new BoundaryMenuListeCourses(
+				boundaryAjouterAlimentListeCourses, boundarySupprimerAlimentListeCourses,
+				boundaryModifierAlimentListeCourses, controlFaireCourses);
 
 		assistant = new BoundaryMenuPrincipalAssistantCuisine(boundaryCreerRecette, boundaryAfficherListeRecettes,
-				boundaryAfficherListeAlimentsListeCourses, boundaryAfficherListeAlimentsPlacard, boundaryMenuListeCourses,
-				boundaryMenuLivreRecette, boundaryMenuPlacard);
+				boundaryAfficherListeAlimentsListeCourses, boundaryAfficherListeAlimentsPlacard,
+				boundaryMenuListeCourses, boundaryMenuLivreRecette, boundaryMenuPlacard);
 		assistant.menuPrincipal();
 	}
 
