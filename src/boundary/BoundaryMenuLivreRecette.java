@@ -2,7 +2,16 @@ package boundary;
 
 public class BoundaryMenuLivreRecette {
 	private Clavier clavier = new Clavier();
-	
+	private BoundaryVoirRecette boundaryVoirRecette;
+	private BoundarySupprimerRecette boundarySupprimerRecette;
+	private BoundaryFiltrerRecettes boundaryFiltrerRecettes;
+
+	public BoundaryMenuLivreRecette(BoundaryVoirRecette boundaryVoirRecette,
+			BoundarySupprimerRecette boundarySupprimerRecette, BoundaryFiltrerRecettes boundaryFiltrerRecettes) {
+		this.boundaryVoirRecette = boundaryVoirRecette;
+		this.boundarySupprimerRecette = boundarySupprimerRecette;
+		this.boundaryFiltrerRecettes = boundaryFiltrerRecettes;
+	}
 
 	public void menuLivreRecette() {
 		int choix;
@@ -12,32 +21,37 @@ public class BoundaryMenuLivreRecette {
 		question.append("2 - Supprimer une recette\n");
 		question.append("3 - Filtrer les recettes par type\n");
 		question.append("4 - Filtrer les recettes par temps de préparation\n");
-		question.append("5 - Filtrer les recettes que vous pouvez réaliser\n");
-		question.append("6 - Retour au menu principal\n");
+		question.append("5 - Filtrer les recettes que vous pouvez réaliser avec le contenu de votre placard\n");
+		question.append("6 - Filtrer les recettes qui ne contiennent pas certains aliments\n");
+		question.append("7 - Retour au menu principal\n");
 		do {
 			choix = clavier.saisieInt(question.toString());
 			switch (choix) {
 			case 1: {
-				//TODO void recette
+				boundaryVoirRecette.voirRecette();
 				break;
 			}
 			case 2: {
-				//TODO supprimer recette
+				boundarySupprimerRecette.supprimerRecette();
 				break;
 			}
 			case 3: {
-				// TODO filtrer type
+				boundaryFiltrerRecettes.filtrerType();
 				break;
 			}
 			case 4: {
-				// TODO filtrer temps
+				boundaryFiltrerRecettes.filtrerTemps();
 				break;
 			}
 			case 5: {
-				// TODO filtrer realisables
+				boundaryFiltrerRecettes.filtrerRealisable();
 				break;
 			}
 			case 6: {
+				boundaryFiltrerRecettes.filtrerAlimentsAEviter();
+				break;
+			}
+			case 7: {
 				System.out.println("Retour au menu principal\n");
 				break;
 			}

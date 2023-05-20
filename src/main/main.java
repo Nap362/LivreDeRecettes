@@ -3,10 +3,13 @@ package main;
 import boundary.BoundaryMenuPrincipalAssistantCuisine;
 import boundary.BoundaryModifierAliment;
 import boundary.BoundarySupprimerAliment;
+import boundary.BoundarySupprimerRecette;
+import boundary.BoundaryVoirRecette;
 import boundary.BoundaryAfficherListeAliments;
 import boundary.BoundaryAfficherListeRecettes;
 import boundary.BoundaryAjouterAliment;
 import boundary.BoundaryCreerRecette;
+import boundary.BoundaryFiltrerRecettes;
 import boundary.BoundaryMenuListeCourses;
 import boundary.BoundaryMenuLivreRecette;
 import boundary.BoundaryMenuPlacard;
@@ -15,8 +18,11 @@ import control.ControlAfficherListeRecettes;
 import control.ControlAjouterAliment;
 import control.ControlCreerRecette;
 import control.ControlFaireCourses;
+import control.ControlFiltrerRecettes;
 import control.ControlModifierAliment;
 import control.ControlSupprimerAliment;
+import control.ControlSupprimerRecette;
+import control.ControlVoirRecette;
 import elements.Aliment;
 import elements.ListeAliments;
 import elements.LivreRecette;
@@ -33,7 +39,10 @@ public class main {
 		ControlAfficherListeRecettes controlAfficherListeRecettes = new ControlAfficherListeRecettes(livreRecette);
 		BoundaryAfficherListeRecettes boundaryAfficherListeRecettes = new BoundaryAfficherListeRecettes(
 				controlAfficherListeRecettes);
-		BoundaryMenuLivreRecette boundaryMenuLivreRecette = new BoundaryMenuLivreRecette();
+		ControlSupprimerRecette controlSupprimerRecette = new ControlSupprimerRecette(livreRecette);
+		BoundarySupprimerRecette boundarySupprimerRecette = new BoundarySupprimerRecette(controlSupprimerRecette);
+		ControlVoirRecette controlVoirRecette = new ControlVoirRecette(livreRecette);
+		BoundaryVoirRecette boundaryVoirRecette = new BoundaryVoirRecette(controlVoirRecette);
 
 		ListeAliments placard = new ListeAliments(100);
 		ControlAfficherListeAliments controlAfficherPlacard = new ControlAfficherListeAliments(placard);
@@ -49,7 +58,10 @@ public class main {
 				controlModifierAlimentPlacard);
 		BoundaryMenuPlacard boundaryMenuPlacard = new BoundaryMenuPlacard(boundaryAjouterAlimentPlacard,
 				boundarySupprimerAlimentPlacard, boundaryModifierAlimentPlacard);
-
+		ControlFiltrerRecettes controlFiltrerRecettes = new ControlFiltrerRecettes(livreRecette, placard);
+		BoundaryFiltrerRecettes boundaryFiltrerRecettes = new BoundaryFiltrerRecettes(controlFiltrerRecettes);
+		BoundaryMenuLivreRecette boundaryMenuLivreRecette = new BoundaryMenuLivreRecette(boundaryVoirRecette, boundarySupprimerRecette, boundaryFiltrerRecettes);
+		
 		ListeAliments listeCourses = new ListeAliments(50);
 		ControlAfficherListeAliments controlAfficherListeCourses = new ControlAfficherListeAliments(listeCourses);
 		BoundaryAfficherListeAliments boundaryAfficherListeAlimentsListeCourses = new BoundaryAfficherListeAliments(
