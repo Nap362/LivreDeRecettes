@@ -1,6 +1,6 @@
 package boundary;
 
-import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Clavier {
@@ -8,24 +8,30 @@ public class Clavier {
 	
 	public String saisieTexte(String question) {
 		System.out.println(question);
-		String reponse ="";
-		try {
-			reponse = scanner.next();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return reponse;
+		return scanner.nextLine();
 	}
 	
 	public int saisieInt(String question) {
 		System.out.println(question);
-		int reponse = scanner.nextInt();
+		int reponse =-1;
+		try {
+			reponse = scanner.nextInt();
+		} catch (InputMismatchException e) {
+			e.printStackTrace();
+		}
+		scanner.nextLine();
 		return reponse;
 	}
 	
 	public double saisieDouble(String question) {
 		System.out.println(question);
-		double reponse = scanner.nextDouble();
+		double reponse =-1;
+		try {
+			reponse = scanner.nextDouble();
+		} catch (InputMismatchException e) {
+			e.printStackTrace();
+		}
+		scanner.nextLine();
 		return reponse;
 	}
 }

@@ -1,23 +1,22 @@
 package boundary;
 
-import java.util.Scanner;
-
 import control.ControlAjouterAliment;
 
 public class BoundaryAjouterAliment {
-	private ControlAjouterAliment controlAjouterAliment;
-	private Clavier clavier;
-	
-	public BoundaryAjouterAliment(ControlAjouterAliment controlAjouterAliment) {
-		this.controlAjouterAliment = controlAjouterAliment;
+	private Clavier clavier = new Clavier();
+	private ControlAjouterAliment control;
+
+	public BoundaryAjouterAliment(ControlAjouterAliment control) {
+		this.control = control;
 	}
 	
-	public void ajouterAliments() {
-		
-		String nom = clavier.saisieTexte("\nAliment : ");
-		String unite = clavier.saisieTexte("\nUnité : ");
-		double quantite = clavier.saisieDouble("\nQuantité : ");
-		controlAjouterAliment.ajouterAliments(nom, unite, quantite);
-		System.out.println("\nAjout de " + quantite + " " + unite + " de " + nom + " à la lite.\n");
+	public void ajouterAliment() {
+		System.out.println("\tAjout d'un aliment :\n");
+		String nom = clavier.saisieTexte("Nom :\n");
+		String unite = clavier.saisieTexte("G | MG | L | CL | ML | PINCEE | CAS | CAC | SACHET | SANS\nUnite :\n");
+		double quantite = clavier.saisieDouble("Quantite :\n");
+		control.ajouterAliment(nom, unite, quantite);
 	}
+	
+	
 }

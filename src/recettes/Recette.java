@@ -3,10 +3,9 @@ package recettes;
 import elements.ListeAliments;
 
 public abstract class Recette {
-	protected static final int INGERDIENTS_MAX = 20;
 	protected String nom;
 	protected int temps;
-	protected ListeAliments ingredients = new ListeAliments(INGERDIENTS_MAX);
+	protected ListeAliments ingredients;
 	protected ListeInstructions listeInstructions = new ListeInstructions();
 
 	public String getNom() {
@@ -23,6 +22,10 @@ public abstract class Recette {
 	
 	public String afficherDansListe() {
 		return nom;
+	}
+	
+	public void setListeIngredients(ListeAliments ingredients) {
+		this.ingredients = ingredients;
 	}
 
 	private class ListeInstructions{
@@ -97,7 +100,7 @@ public abstract class Recette {
 		StringBuilder affichage = new StringBuilder();
 		affichage.append("\t" + nom + " :\n" + "Pour " + personnes + " personnes\n" + "Temps de réalisation : "
 				+ afficherTemps() + "\n");
-		affichage.append("Ingrédients : \n" + ingredients.afficherListePersonne(personnes));
+		affichage.append("Ingrédients :\n" + ingredients.afficherListePersonne(personnes));
 		affichage.append("\nRéalisation :\n" + listeInstructions.afficherListe());
 		return affichage.toString();
 	}

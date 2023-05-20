@@ -2,18 +2,16 @@ package control;
 
 import elements.Aliment;
 import elements.ListeAliments;
-import elements.Type;
-import elements.Unite;
 
 public class ControlAjouterAliment {
-private ListeAliments listeAliments;
-	
-	public ControlAjouterAliment(ListeAliments listeAliments) {
-		this.listeAliments = listeAliments;
+	private ListeAliments liste;
+
+	public ControlAjouterAliment(ListeAliments liste) {
+		this.liste = liste;
 	}
-	
-	public void ajouterAliments(String nom, String uniteString, double quantite) {
-		Unite unite = Unite.valueOf(uniteString);
-		listeAliments.ajouter(new Aliment(nom, unite, quantite));
+
+	public void ajouterAliment(String nom, String unite, double quantite) {
+		Aliment aliment = new Aliment(nom, unite, quantite);
+		liste.ajouter(aliment);
 	}
 }

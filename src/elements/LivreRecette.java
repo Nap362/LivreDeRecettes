@@ -3,7 +3,6 @@ package elements;
 import recettes.Recette;
 
 public class LivreRecette<T extends Recette> implements GestionTableau<T>{
-	private static final int NB_MAX_RECETTES = 100;
 	private String nom;
 	private T[] recettes;
 	private int nbRecettes = 0;
@@ -23,7 +22,7 @@ public class LivreRecette<T extends Recette> implements GestionTableau<T>{
 
 	@Override
 	public void ajouter(T recette) {
-		if (nbRecettes<NB_MAX_RECETTES) {
+		if (nbRecettes<recettes.length) {
 			recettes[nbRecettes]=recette;
 			nbRecettes++;
 		} 
@@ -43,7 +42,7 @@ public class LivreRecette<T extends Recette> implements GestionTableau<T>{
 	@Override
 	public String afficherListe() {
 		StringBuilder affichage = new StringBuilder();
-		affichage.append("\tVos " + nom +" :\n");
+		affichage.append("\t" + nom +" :\n");
 		for (int i=0; i<nbRecettes;i++) {
 			affichage.append((i+1)+". " + recettes[i].getNom() + "\n");
 		}
@@ -75,7 +74,7 @@ public class LivreRecette<T extends Recette> implements GestionTableau<T>{
 	public String filtrerRecettesRealisables(ListeAliments placard) {
 		StringBuilder affichage = new StringBuilder();
 		for (int i=0; i<nbRecettes; i++) {
-			if (!recettes[i].recetteRealisable(placard)) {
+			if (recettes[i].recetteRealisable(placard)) {
 				affichage.append(" ~ " + recettes[i].getNom() + "\n");
 			}
 		}
