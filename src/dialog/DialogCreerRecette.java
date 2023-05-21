@@ -5,10 +5,12 @@ import java.awt.EventQueue;
 import control.ControlCreerRecette;
 import elements.LivreRecette;
 import presentation.PresentationJFrameCreerRecette;
+import presentation.PresentationJFrameFenetreAdmin;
 import recettes.Recette;
 
 public class DialogCreerRecette {
 	private PresentationJFrameCreerRecette presentationJFrameCreerRecette;
+	private PresentationJFrameFenetreAdmin presentationJFrameFenetreAdmin;
 	private ControlCreerRecette controlCreerRecette;
 	private LivreRecette<Recette> livreRecettes;
 	private String type;
@@ -17,6 +19,8 @@ public class DialogCreerRecette {
 		presentationJFrameCreerRecette = new PresentationJFrameCreerRecette();
 		presentationJFrameCreerRecette.initPresentation(this);
 		presentationJFrameCreerRecette.setVisible(true);
+		presentationJFrameFenetreAdmin = new PresentationJFrameFenetreAdmin();
+		presentationJFrameFenetreAdmin.setVisible(true);
 
 		Recette[] recettes = new Recette[100];
 		livreRecettes = new LivreRecette<>(recettes, "Mes recettes");
@@ -41,6 +45,17 @@ public class DialogCreerRecette {
 		}
 		presentationJFrameCreerRecette.enableChampsSuplementaires();
 	}
+	
+	public void handlerIngredientAjoute(String nom, double quantite, String unite) {
+		controlCreerRecette.ajouterAliment(nom, unite.toUpperCase(), quantite);
+		presentationJFrameCreerRecette.enableAjouterInstruction();
+	}
+	
+	public void handlerInstructionAjoutee(String instruction) {
+		controlCreerRecette.ajouterInstruction(instruction);
+		presentationJFrameCreerRecette.enableTerminerRecette();
+	}
+
 	public void handlerRecetteInitialisee(String nom, String typeViande, String typePoisson, boolean vegan, int temps) {
 		switch (type) {
 		case "Viande":
@@ -56,8 +71,10 @@ public class DialogCreerRecette {
 			controlCreerRecette.creerDessert(nom, temps);
 			break;
 		}
-		presentationJFrameCreerRecette.enableAjoutIngredients();
+		presentationJFrameFenetreAdmin.presentationRecetteAjoutee(nom);
 	}
+	
+	
 
 	public static void main(String[] args) {
 		DialogCreerRecette dialogReservation = new DialogCreerRecette();
