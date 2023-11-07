@@ -12,7 +12,7 @@ public class BoundarySupprimerAliment {
 
 	public void supprimerAliment() {
 		System.out.println("\tSuppression d'un aliment :\n");
-		int indice = clavier.saisieInt("Numéro :\n");
-		control.supprimerAliment(indice);
+		String aliment = clavier.saisieTexte("Aliment :\n");
+		control.supprimerAliment(aliment);
 	}
 }

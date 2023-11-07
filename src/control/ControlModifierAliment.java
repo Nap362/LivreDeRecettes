@@ -9,11 +9,11 @@ public class ControlModifierAliment {
 		this.liste = liste;
 	}
 	
-	public void modifierNom(int indice, String nouveauNom) {
-		liste.modifierNom(indice, nouveauNom);
+	public void modifierNom(String aliment, String nouveauNom) {
+		liste.modifierNom(aliment, nouveauNom);
 	}
 	
-	public void modifierQuantite(int indice, double nouvelleQuantite) {
-		liste.modifierQuantite(indice, nouvelleQuantite);
+	public void modifierQuantite(String aliment, double nouvelleQuantite) {
+		liste.modifierQuantite(aliment, nouvelleQuantite);
 	}
 }

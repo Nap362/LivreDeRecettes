@@ -16,14 +16,13 @@ public class DialogCreerRecette {
 	private String type;
 
 	public void initDialog() {
+		presentationJFrameFenetreAdmin = new PresentationJFrameFenetreAdmin();
+		presentationJFrameFenetreAdmin.setVisible(true);
 		presentationJFrameCreerRecette = new PresentationJFrameCreerRecette();
 		presentationJFrameCreerRecette.initPresentation(this);
 		presentationJFrameCreerRecette.setVisible(true);
-		presentationJFrameFenetreAdmin = new PresentationJFrameFenetreAdmin();
-		presentationJFrameFenetreAdmin.setVisible(true);
 
-		Recette[] recettes = new Recette[100];
-		livreRecettes = new LivreRecette<>(recettes, "Mes recettes");
+		livreRecettes = new LivreRecette<>("Mes recettes");
 		controlCreerRecette = new ControlCreerRecette(livreRecettes);
 	}
 
@@ -43,8 +42,9 @@ public class DialogCreerRecette {
 			presentationJFrameCreerRecette.enableDessert();
 			break;
 		}
-		presentationJFrameCreerRecette.enableChampsSuplementaires();
+		presentationJFrameCreerRecette.enableNom();
 	}
+	
 	
 	public void handlerIngredientAjoute(String nom, double quantite, String unite) {
 		controlCreerRecette.ajouterAliment(nom, unite.toUpperCase(), quantite);
@@ -72,6 +72,8 @@ public class DialogCreerRecette {
 			break;
 		}
 		presentationJFrameFenetreAdmin.presentationRecetteAjoutee(nom);
+		presentationJFrameCreerRecette.enableValidationInformation(nom);
+		presentationJFrameCreerRecette.resetPresentation();
 	}
 	
 	

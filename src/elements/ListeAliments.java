@@ -1,90 +1,91 @@
 package elements;
 
-public class ListeAliments implements GestionTableau<Aliment> {
-	private final int NB_MAX_ALIMENTS;
-	private int nbrAliments = 0;
-	private Aliment[] aliments;
+import java.util.HashSet;
+import java.util.Set;
 
-	public ListeAliments(int nbMaxAliments) {
-		this.NB_MAX_ALIMENTS = nbMaxAliments;
-		this.aliments = new Aliment[NB_MAX_ALIMENTS];
+public class ListeAliments {
+	private Set<Aliment> aliments;
+
+	public ListeAliments() {
+		this.aliments = new HashSet<>();
+	}
+	
+	public int getNbrAliments() {
+		return aliments.size();
 	}
 
-	@Override
-	public void ajouter(Aliment ingredient) {
-		if (nbrAliments < NB_MAX_ALIMENTS) {
-			aliments[nbrAliments] = ingredient;
-			nbrAliments++;
-		}
+	public void ajouter(Aliment aliment) {
+		aliments.add(aliment);
 	}
 
-	@Override
-	public void supprimer(int indice) {
-		nbrAliments--;
-		if (indice < nbrAliments) {
-			for (int i = indice; i < nbrAliments; i++) {
-				aliments[i] = aliments[i + 1];
-			}
-		}
-		aliments[nbrAliments] = null;
+	public void supprimer(Aliment aliment) {
+		aliments.remove(aliment);
 	}
 
-	@Override
 	public String afficherListe() {
 		StringBuilder affichage = new StringBuilder();
-		for (int i = 0; i < nbrAliments; i++) {
-			affichage.append(" (" + (i + 1) + ") " + aliments[i].afficherDansListe() + "\n");
+		for (Aliment aliment : aliments) {
+			affichage.append(" - " + aliment.afficherDansListe() + "\n");
 		}
 		return affichage.toString();
 	}
-
-	public double getQuantiteAliment(int indice) {
-		return aliments[indice].getQuantite();
+	
+	public Aliment rechercherAliment(String nomAliment) {
+		Aliment alimentRecherche = new KeyAliment(nomAliment);
+		for (Aliment aliment : aliments) {
+			if (aliment.equals(alimentRecherche)) {
+				return aliment;
+			}
+		}
+		return null;
 	}
 
-	public void modifierNom(int indice, String nouveauNom) {
-		aliments[indice].setNom(nouveauNom);
+	public double getQuantiteAliment(String nomAliment) {
+		Aliment aliment = rechercherAliment(nomAliment);
+		if (aliment==null) {
+			throw new NullPointerException();
+		}
+		return aliment.getQuantite();
 	}
 
-	public void modifierQuantite(int indice, double nouvelleQuantite) {
-		aliments[indice].setQuantite(nouvelleQuantite);
+	public void modifierNom(String nomAliment, String nouveauNom) {
+		Aliment aliment = rechercherAliment(nomAliment);
+		if (aliment==null) {
+			throw new NullPointerException();
+		}
+		aliment.setNom(nouveauNom);
+	}
+
+	public void modifierQuantite(String nomAliment, double nouvelleQuantite) {
+		Aliment aliment = rechercherAliment(nomAliment);
+		if (aliment==null) {
+			throw new NullPointerException();
+		}
+		aliment.setQuantite(nouvelleQuantite);
 	}
 
 	/* Affichage de la liste pour un certain nombre de personnes */
 	public String afficherListePersonne(int personnes) {
 		StringBuilder affichage = new StringBuilder();
-		for (int i = 0; i < nbrAliments; i++) {
-			affichage.append(" (" + (i+1) + ") " + aliments[i].afficherQuantiteModifiee(personnes) + "\n");
+		int indice = 1;
+		for (Aliment aliment : aliments) {
+			affichage.append(" (" + indice + ") " + aliment.afficherQuantiteModifiee(personnes) + "\n");
+			indice++;
 		}
 		return affichage.toString();
 	}
 
-	public int rechercherAliment(String nom) {
-		int indiceAlimentRecherche = -1;
-		for (int i = 0; i < nbrAliments && indiceAlimentRecherche == -1; i++) {
-			if (aliments[i].getNom().equals(nom)) {
-				indiceAlimentRecherche = i;
-			}
-		}
-		return indiceAlimentRecherche;
-	}
-
 	// Uniquement pour la liste de courses
 	public void faireCourses(ListeAliments placard) {
-		while (nbrAliments > 0) {
-			Aliment aliment = aliments[nbrAliments - 1];
-			int indicePlacard = placard.rechercherAliment(aliment.getNom());
-			if (indicePlacard != -1) {
-				// L'aliment est dejà présent dans le placard on ajoute la quantité achetée à la
-				// quantité présente
-				double quantite = placard.getQuantiteAliment(indicePlacard);
-				double nouvelleQuantite = quantite + aliment.getQuantite();
-				placard.modifierQuantite(indicePlacard, nouvelleQuantite);
+		for (Aliment alimentAchete : aliments) {
+			Aliment alimentPlacard = placard.rechercherAliment(alimentAchete.getNom());
+			if (alimentPlacard != null) {
+				// L'aliment est présent dans le placard on l'ajoute
+				alimentPlacard.setQuantite(alimentAchete.getQuantite() + alimentPlacard.getQuantite());
 			} else {
 				// L'aliment n'est pas présent dans le placard on l'ajoute
-				placard.ajouter(aliment);
+				placard.ajouter(alimentAchete);
 			}
-			supprimer(nbrAliments - 1);
 		}
 	}
 
@@ -92,20 +93,16 @@ public class ListeAliments implements GestionTableau<Aliment> {
 	public boolean contientAuMoinsUnIngredient(String[] listeAliments) {
 		boolean contientAuMoinsUnIngredient = false;
 		for (int i = 0; i < listeAliments.length && !contientAuMoinsUnIngredient; i++) {
-			int indice = rechercherAliment(listeAliments[i]);
-			if (indice != -1) {
-				contientAuMoinsUnIngredient = true;
-			}
+			contientAuMoinsUnIngredient = (rechercherAliment(listeAliments[i]) != null) ;
 		}
 		return contientAuMoinsUnIngredient;
 	}
 
 	public boolean tousIngredientsDisponibles(ListeAliments listeAliments) {
 		boolean tousIngredientsDisponibles = true;
-		for (int i = 0; i < listeAliments.nbrAliments && tousIngredientsDisponibles; i++) {
-			Aliment alimentCourant = listeAliments.aliments[i];
-			int indice = rechercherAliment(alimentCourant.getNom());
-			if (indice == -1 || !aliments[indice].verifierQuantiteSuffisante(alimentCourant.getQuantite())) {
+		for (Aliment alimentCourant : aliments) {
+			Aliment aliment  = rechercherAliment(alimentCourant.getNom());
+			if (aliment ==null || !aliment.verifierQuantiteSuffisante(alimentCourant.getQuantite())) {
 				tousIngredientsDisponibles = false;
 			}
 		}

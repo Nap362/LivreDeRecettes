@@ -1,71 +1,61 @@
 package elements;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import recettes.KeyRecette;
 import recettes.Recette;
 
-public class LivreRecette<T extends Recette> implements GestionTableau<T> {
+public class LivreRecette<T extends Recette> {
 	private String nom;
-	private T[] recettes;
-	private int nbRecettes = 0;
+	private List<T> recettes;
 
-	public LivreRecette(T[] recettes, String nom) {
-		this.recettes = recettes;
+	public LivreRecette(String nom) {
+		this.recettes = new ArrayList<>();
 		this.nom = nom;
 	}
 
-	public T getRecette(int i) {
-		return recettes[i];
+	public T getRecette(int indice) {
+		return recettes.get(indice);
 	}
 
 	public int getNbRecettes() {
-		return nbRecettes;
+		return recettes.size();
 	}
 
-	@Override
 	public void ajouter(T recette) {
-		if (nbRecettes < recettes.length) {
-			recettes[nbRecettes] = recette;
-			nbRecettes++;
-		}
+		recettes.add(recette);
 	}
 
-	@Override
 	public void supprimer(int indice) {
-		nbRecettes--;
-		if (indice < nbRecettes) {
-			for (int i = indice; i < nbRecettes; i++) {
-				recettes[i] = recettes[i + 1];
-			}
-		}
-		recettes[nbRecettes] = null;
+		recettes.remove(indice);
 	}
 
-	@Override
 	public String afficherListe() {
 		StringBuilder affichage = new StringBuilder();
 		affichage.append("\t" + nom + " :\n");
-		for (int i = 0; i < nbRecettes; i++) {
-			affichage.append((i + 1) + ". " + recettes[i].getNom() + "\n");
+		int indice = 1;
+		for (T recette : recettes) {
+			affichage.append(indice + ". " + recette.getNom() + "\n");
+			indice++;
 		}
 		return affichage.toString();
 	}
 
 	// Renvoi l'indice de la recette ou -1
 	public int rechercherNom(String nom) {
-		int indiceRecetteRecherchee = -1;
-		for (int i = 0; i < nbRecettes && indiceRecetteRecherchee == -1; i++) {
-			if (recettes[i].getNom().equals(nom)) {
-				indiceRecetteRecherchee = i;
-			}
-		}
-		return indiceRecetteRecherchee;
+		Recette recetteAComparer = new KeyRecette(nom);
+		return recettes.indexOf(recetteAComparer);
 	}
 
 	public String filtrerType(String type) {
 		StringBuilder affichage = new StringBuilder();
-		String classType = "class recettes." + type;
-		for (int i = 0; i < nbRecettes; i++) {
-			if (recettes[i].getClass().toString().equals(classType)) {
-				affichage.append("> " + i + ". " + recettes[i].getNom());
+		int indice = 1;
+		for (T recette : recettes) {
+			if (recette.getClass().toString().equals(type)) {
+				affichage.append("> " + indice + ". " + recette);
+				indice++;
 			}
 		}
 		return affichage.toString();
@@ -73,9 +63,11 @@ public class LivreRecette<T extends Recette> implements GestionTableau<T> {
 
 	public String filtrerTemps(int temps) {
 		StringBuilder affichage = new StringBuilder();
-		for (int i = 0; i < nbRecettes; i++) {
-			if (recettes[i].getTemps() <= temps) {
-				affichage.append("> " + i + ". " + recettes[i].getNom());
+		int indice = 1;
+		for (T recette : recettes) {
+			if (recette.getTemps() <= temps) {
+				affichage.append("> " + indice + ". " + recette.getNom());
+				indice++;
 			}
 		}
 		return affichage.toString();
@@ -83,9 +75,11 @@ public class LivreRecette<T extends Recette> implements GestionTableau<T> {
 
 	public String filtrerEviterIngredients(String[] ingredientsAEviter) {
 		StringBuilder affichage = new StringBuilder();
-		for (int i = 0; i < nbRecettes; i++) {
-			if (!recettes[i].recetteContientAuMoinsUnIngredient(ingredientsAEviter)) {
-				affichage.append("> " + i + ". " + recettes[i].getNom());
+		int indice = 1;
+		for (T recette : recettes) {
+			if (!recette.recetteContientAuMoinsUnIngredient(ingredientsAEviter)) {
+				affichage.append("> " + indice + ". " + recette.getNom());
+				indice++;
 			}
 		}
 		return affichage.toString();
@@ -93,9 +87,11 @@ public class LivreRecette<T extends Recette> implements GestionTableau<T> {
 
 	public String filtrerRecettesRealisables(ListeAliments placard) {
 		StringBuilder affichage = new StringBuilder();
-		for (int i = 0; i < nbRecettes; i++) {
-			if (recettes[i].recetteRealisable(placard)) {
-				affichage.append("> " + i + ". " + recettes[i].getNom());
+		int indice = 1;
+		for (T recette : recettes) {
+			if (recette.recetteRealisable(placard)) {
+				affichage.append("> " + indice + ". " + recette.getNom());
+				indice++;
 			}
 		}
 		return affichage.toString();

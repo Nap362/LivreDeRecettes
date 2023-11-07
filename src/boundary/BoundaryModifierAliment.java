@@ -12,7 +12,7 @@ public class BoundaryModifierAliment {
 	
 	public void modifierAliment() {
 		System.out.println("\tModification d'un aliment\n");
-		int indice = clavier.saisieInt("Indice de l'aliment :\n");
+		String aliment = clavier.saisieTexte("Nom de l'aliment :\n");
 		StringBuilder question = new StringBuilder();
 		question.append("Que voulez-vous modifier ?\n");
 		question.append("1 - Modifier le nom\n");
@@ -23,11 +23,11 @@ public class BoundaryModifierAliment {
 			choix = clavier.saisieInt(question.toString());
 			switch (choix) {
 			case 1: {
-				modifierNom(indice);
+				modifierNom(aliment);
 				break;
 			}
 			case 2: {
-				modifierQuantite(indice);
+				modifierQuantite(aliment);
 				break;		
 			}
 			case 3: {
@@ -39,13 +39,13 @@ public class BoundaryModifierAliment {
 		}while (choix!=3);
 	}
 	
-	private void modifierNom(int indice) {
+	private void modifierNom(String aliment) {
 		String nouveauNom = clavier.saisieTexte("Nouveau nom :\n");
-		control.modifierNom(indice, nouveauNom);
+		control.modifierNom(aliment, nouveauNom);
 	}
 	
-	private void modifierQuantite(int indice) {
+	private void modifierQuantite(String aliment) {
 		double nouvelleQuantite = clavier.saisieDouble("Nouvelle quantité :\n");
-		control.modifierQuantite(indice, nouvelleQuantite);
+		control.modifierQuantite(aliment, nouvelleQuantite);
 	}
 }

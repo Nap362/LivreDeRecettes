@@ -1,5 +1,8 @@
 package control;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import elements.ListeAliments;
 import elements.LivreRecette;
 import recettes.Dessert;
@@ -12,9 +15,8 @@ public class ControlCreerRecette {
 	private LivreRecette<Recette> livreRecette;
 	private Recette recette;
 	private ControlAjouterAliment controlAjouterListeAliment;
-	private ListeAliments listeAliments = new ListeAliments(20);
-	private String[] instructions = new String[20];
-	private int nbrInstructions = 0;
+	private ListeAliments listeAliments = new ListeAliments();
+	private List<String> instructions = new ArrayList<>();
 
 	public ControlCreerRecette(LivreRecette<Recette> livreRecette) {
 		this.livreRecette = livreRecette;
@@ -24,8 +26,8 @@ public class ControlCreerRecette {
 	public void creerViande(String nom, int temps, String typeViande) {
 		recette = new Viande(nom, temps, typeViande);
 		recette.setListeIngredients(listeAliments);
-		for(int i=0; i<nbrInstructions;i++) {
-			recette.ajouterInstuction(instructions[i]);
+		for (String instruction : instructions) {
+			recette.ajouterInstuction(instruction);
 		}
 		livreRecette.ajouter(recette);
 	}
@@ -53,8 +55,7 @@ public class ControlCreerRecette {
 	}
 
 	public void ajouterInstruction(String instruction) {
-		instructions[nbrInstructions]=instruction;
-		nbrInstructions++;
+		instructions.add(instruction);
 	}
 
 }

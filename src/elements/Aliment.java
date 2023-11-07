@@ -81,4 +81,19 @@ public class Aliment{
 		}
 		return quantiteSuffisante;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj.getClass() == Aliment.class) {
+			Aliment aliment = (Aliment) obj;
+			return aliment.nom == nom;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return 31 * nom.hashCode();
+	}
+	
 }

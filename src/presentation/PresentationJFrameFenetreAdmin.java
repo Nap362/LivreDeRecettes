@@ -34,7 +34,6 @@ public class PresentationJFrameFenetreAdmin extends JFrame {
 		lblListeRecettes.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		textArea = new JTextArea();
-		textArea.setEditable(true);
 		GroupLayout glContentPane = new GroupLayout(contentPane);
 		glContentPane.setHorizontalGroup(glContentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(glContentPane.createSequentialGroup()

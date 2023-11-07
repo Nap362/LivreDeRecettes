@@ -134,6 +134,41 @@ class LivreRecetteTest {
 		assertEquals(livreRecettes.rechercherNom(livreRecettes.getRecette(0).getNom()), 0);
 		assertEquals(livreRecettes.rechercherNom("Tarte"), -1);
 	}
+	
+	@Test
+	void testFiltrerTemps() {
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		assertEquals(livreRecettes.getNbRecettes(), 0);
+		Viande viande = new Viande("Steak", 20, "BOEUF");
+		ListeAliments liste1 = new ListeAliments(2);
+		liste1.ajouter(new Aliment("steak", "G", 150));
+		viande.setListeIngredients(liste1);
+		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
+		ListeAliments liste2 = new ListeAliments(2);
+		liste2.ajouter(new Aliment("saumon", "G", 200));
+		liste2.ajouter(new Aliment("oignon", "SANS", 0.5));
+		poisson.setListeIngredients(liste2);
+		
+		livreRecettes.ajouter(viande);
+		livreRecettes.ajouter(poisson);
+		String affichage = "> 0. Steak";
+		assertEquals(livreRecettes.filtrerTemps(25), affichage);
+		
+	}
+	
+	@Test
+	void testFiltrerType() {
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		assertEquals(livreRecettes.getNbRecettes(), 0);
+		Viande viande = new Viande("Steak", 20, "BOEUF");
+		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
+		
+		livreRecettes.ajouter(viande);
+		livreRecettes.ajouter(poisson);
+		String affichage = "> 1. Poisson au four";
+		assertEquals(livreRecettes.filtrerType("Poisson"), affichage);
+		
+	}
 
 	@Test
 	void testFiltrerEviterIngredients() {
@@ -152,7 +187,7 @@ class LivreRecetteTest {
 		livreRecettes.ajouter(viande);
 		livreRecettes.ajouter(poisson);
 		String[] eviter = {"saumon", "creme fraiche"};
-		String affichage = " ~ Steak\n";
+		String affichage = "> 0. Steak";
 		assertEquals(livreRecettes.filtrerEviterIngredients(eviter), affichage);
 		
 	}
@@ -176,7 +211,7 @@ class LivreRecetteTest {
 		ListeAliments placard = new ListeAliments(2);
 		placard.ajouter(new Aliment("oignon", "SANS", 2));
 		placard.ajouter(new Aliment("saumon", "G", 200));
-		String affichage = " ~ Poisson au four\n";
+		String affichage = "> 1. Poisson au four";
 		assertEquals(livreRecettes.filtrerRecettesRealisables(placard), affichage);
 	}
 

@@ -13,4 +13,18 @@ public class Vegetarien extends Recette{
 	public boolean convientVegan() {
 		return vegan;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj.getClass() == Vegetarien.class) {
+			Vegetarien recette = (Vegetarien) obj;
+			return recette.nom == nom;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return 31 * nom.hashCode();
+	}
 }

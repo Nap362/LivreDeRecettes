@@ -31,8 +31,7 @@ public class Main {
 	private static BoundaryMenuPrincipalAssistantCuisine assistant;
 
 	public static void main(String[] args) {
-		Recette[] recettes = new Recette[100];
-		LivreRecette<Recette> livreRecette = new LivreRecette<>(recettes, "Mes recettes");
+		LivreRecette<Recette> livreRecette = new LivreRecette<>("Mes recettes");
 		ControlCreerRecette controlCreerRecette = new ControlCreerRecette(livreRecette);
 		BoundaryCreerRecette boundaryCreerRecette = new BoundaryCreerRecette(controlCreerRecette);
 		ControlAfficherListeRecettes controlAfficherListeRecettes = new ControlAfficherListeRecettes(livreRecette);
@@ -43,7 +42,7 @@ public class Main {
 		ControlVoirRecette controlVoirRecette = new ControlVoirRecette(livreRecette);
 		BoundaryVoirRecette boundaryVoirRecette = new BoundaryVoirRecette(controlVoirRecette);
 
-		ListeAliments placard = new ListeAliments(100);
+		ListeAliments placard = new ListeAliments();
 		ControlAfficherListeAliments controlAfficherPlacard = new ControlAfficherListeAliments(placard);
 		BoundaryAfficherListeAliments boundaryAfficherListeAlimentsPlacard = new BoundaryAfficherListeAliments(
 				controlAfficherPlacard);
@@ -62,7 +61,7 @@ public class Main {
 		BoundaryMenuLivreRecette boundaryMenuLivreRecette = new BoundaryMenuLivreRecette(boundaryVoirRecette,
 				boundarySupprimerRecette, boundaryFiltrerRecettes);
 
-		ListeAliments listeCourses = new ListeAliments(50);
+		ListeAliments listeCourses = new ListeAliments();
 		ControlAfficherListeAliments controlAfficherListeCourses = new ControlAfficherListeAliments(listeCourses);
 		BoundaryAfficherListeAliments boundaryAfficherListeAlimentsListeCourses = new BoundaryAfficherListeAliments(
 				controlAfficherListeCourses);

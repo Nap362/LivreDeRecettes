@@ -9,7 +9,7 @@ public class ControlSupprimerAliment {
 		this.liste = liste;
 	}
 	
-	public void supprimerAliment(int indice) {
-		liste.supprimer(indice);
+	public void supprimerAliment(String nomAliment) {
+		liste.supprimer(liste.rechercherAliment(nomAliment));
 	}
 }

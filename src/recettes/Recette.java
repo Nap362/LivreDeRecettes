@@ -1,12 +1,16 @@
 package recettes;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import elements.Aliment;
 import elements.ListeAliments;
 
 public abstract class Recette {
 	protected String nom;
 	protected int temps;
 	protected ListeAliments ingredients;
-	protected ListeInstructions listeInstructions = new ListeInstructions();
+	private List<String> instructions = new ArrayList<>();
 
 	public String getNom() {
 		return nom;
@@ -19,66 +23,36 @@ public abstract class Recette {
 	public void setTemps(int temps) {
 		this.temps = temps;
 	}
-	
+
 	public String afficherDansListe() {
 		return nom;
 	}
-	
+
 	public void setListeIngredients(ListeAliments ingredients) {
 		this.ingredients = ingredients;
 	}
 
-	private class ListeInstructions{
-		private static final int INSTRUCTIONS_MAX = 20;
-		private int nbrInstructions = 0;
-		private String[] instructions = new String[INSTRUCTIONS_MAX];
-
-		private void ajouter(String instruction) {
-			if (nbrInstructions < INSTRUCTIONS_MAX) {
-				instructions[nbrInstructions] = instruction;
-				nbrInstructions++;
-			}
-		}
-		
-		private void supprimer(int indice) {
-			nbrInstructions--;
-			if (indice < nbrInstructions) {
-				for (int i = indice; i < nbrInstructions; i++) {
-					instructions[i] = instructions[i + 1];
-				}
-			}
-			instructions[nbrInstructions] = null;
-		}
-		
-		private void inserer(String instruction, int indice) {
-			for (int i = indice; i < nbrInstructions; i++) {
-				instructions[i + 1] = instructions[i];
-				i++;
-			}
-			instructions[indice] = instruction;
-			nbrInstructions++;
-		}
-		
-		private String afficherListe() {
-			StringBuilder texte = new StringBuilder();
-			texte.append("Instructions :\n");
-			for (int i = 0; i < nbrInstructions; i++) {
-				texte.append((i + 1) + ". " + instructions[i] + "\n");
-			}
-			return texte.toString();
-		}
-	}
-	
 	public void ajouterInstuction(String instruction) {
-		listeInstructions.ajouter(instruction);
+		instructions.add(instruction);
 	}
-	
+
 	public void supprimerInstuction(int indice) {
-		listeInstructions.supprimer(indice);
+		instructions.remove(indice);
+	}
+
+	public void insererInstuction(String instruction, int indice) {
+		instructions.add(indice, instruction);
 	}
 	
-	public void insererInstuction(String instruction, int indice) {
-		listeInstructions.inserer(instruction, indice);
+	private String afficherInstructions() {
+		StringBuilder texte = new StringBuilder();
+		texte.append("Instructions :\n");
+		int indice = 1;
+		for (String instruction : instructions) {
+			texte.append(indice + ". " + instruction + "\n");
+			indice++;
+		}
+		return texte.toString();
 	}
 
 	private String afficherTemps() {
@@ -89,8 +63,7 @@ public abstract class Recette {
 				tempsTexte.append("0");
 			}
 			tempsTexte.append(temps % 60);
-		}
-		else {
+		} else {
 			tempsTexte.append(temps + " min");
 		}
 		return tempsTexte.toString();
@@ -101,16 +74,30 @@ public abstract class Recette {
 		affichage.append("\t" + nom + " :\n" + "Pour " + personnes + " personnes\n" + "Temps de réalisation : "
 				+ afficherTemps() + "\n");
 		affichage.append("Ingrédients :\n" + ingredients.afficherListePersonne(personnes));
-		affichage.append("\nRéalisation :\n" + listeInstructions.afficherListe());
+		affichage.append("\nRéalisation :\n" + afficherInstructions());
 		return affichage.toString();
 	}
-	
 
 	public boolean recetteRealisable(ListeAliments placard) {
 		return placard.tousIngredientsDisponibles(ingredients);
 	}
-	
+
 	public boolean recetteContientAuMoinsUnIngredient(String[] AlimentsRecherches) {
 		return ingredients.contientAuMoinsUnIngredient(AlimentsRecherches);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj.getClass() == Poisson.class) {
+			Poisson recette = (Poisson) obj;
+			return recette.nom == nom;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return 31 * nom.hashCode();
+	}
+	
 }
