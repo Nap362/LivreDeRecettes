@@ -14,8 +14,7 @@ class ControlCreerRecetteTest {
 	@BeforeEach
 	public void initialiserSituation() {
 		System.out.println("Initialisation...");
-		Recette[] recettes = new Recette[10];
-		livre = new LivreRecette<>(recettes, "Les recettes");
+		livre = new LivreRecette<>("Les recettes");
 	}
 
 	@Test

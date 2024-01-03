@@ -6,17 +6,4 @@ public class Dessert extends Recette {
 		super.temps = temps;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj.getClass() == Dessert.class) {
-			Dessert recette = (Dessert) obj;
-			return recette.nom == nom;
-		}
-		return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return 31 * nom.hashCode();
-	}
 }

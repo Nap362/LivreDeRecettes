@@ -15,7 +15,7 @@ class ControlSupprimerAlimentTest {
 	@BeforeEach
 	public void initialiserSituation() {
 		System.out.println("Initialisation...");
-		liste= new ListeAliments(10);
+		liste= new ListeAliments();
 		aliment = new Aliment("sucre", "G", 100);
 		liste.ajouter(aliment);
 	}
@@ -29,8 +29,8 @@ class ControlSupprimerAlimentTest {
 	@Test
 	void testSupprimerAliment() {
 		ControlSupprimerAliment controlSupprimerAliment = new ControlSupprimerAliment(liste);
-		controlSupprimerAliment.supprimerAliment(0);
-		assertEquals(liste.rechercherAliment(aliment.getNom()), -1); // Aliment n'est plus présent dans la liste
+		controlSupprimerAliment.supprimerAliment(aliment.getNom());
+		assertNull(liste.rechercherAliment(aliment.getNom())); // Aliment n'est plus présent dans la liste
 	}
 
 }

@@ -3,7 +3,6 @@ package recettes;
 import java.util.ArrayList;
 import java.util.List;
 
-import elements.Aliment;
 import elements.ListeAliments;
 
 public abstract class Recette {
@@ -88,8 +87,8 @@ public abstract class Recette {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj.getClass() == Poisson.class) {
-			Poisson recette = (Poisson) obj;
+		if (obj instanceof Recette) {
+			Recette recette = (Recette) obj;
 			return recette.nom == nom;
 		}
 		return false;

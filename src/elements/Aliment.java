@@ -24,7 +24,11 @@ public class Aliment{
 
 	public Aliment(String nom, String unite, double quantite) {
 		this.nom = nom;
-		this.unite = Unite.valueOf(unite);
+		if (unite!=null) {
+			this.unite = Unite.valueOf(unite);
+		}else {
+			this.unite = null;
+		}
 		this.quantite = quantite;
 
 	}
@@ -84,7 +88,7 @@ public class Aliment{
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj.getClass() == Aliment.class) {
+		if (obj instanceof Aliment) {
 			Aliment aliment = (Aliment) obj;
 			return aliment.nom == nom;
 		}

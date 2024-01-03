@@ -13,7 +13,7 @@ class ControlAjouterAlimentTest {
 	@BeforeEach
 	public void initialiserSituation() {
 		System.out.println("Initialisation...");
-		liste = new ListeAliments(10);
+		liste = new ListeAliments();
 	}
 
 	@Test

@@ -61,7 +61,7 @@ class RecetteTest {
 
 	@Test
 	void testSetListeIngredients() {
-		ListeAliments liste = new ListeAliments(2);
+		ListeAliments liste = new ListeAliments();
 		liste.ajouter(new Aliment("sel", "PINCEE", 1));
 		viande.setListeIngredients(liste);
 		assertEquals(viande.ingredients, liste);
@@ -115,7 +115,7 @@ class RecetteTest {
 
 	@Test
 	void testAfficher() {
-		ListeAliments liste = new ListeAliments(2);
+		ListeAliments liste = new ListeAliments();
 		liste.ajouter(new Aliment("steak haché", "SANS", 1));
 		liste.ajouter(new Aliment("pain à hamburger", "SANS", 1));
 		viande.setListeIngredients(liste);
@@ -123,14 +123,14 @@ class RecetteTest {
 		StringBuilder affichage1 = new StringBuilder();
 		affichage1.append("\tHamburger :\n");
 		affichage1.append("Pour 2 personnes\nTemps de réalisation : 40 min\n");
-		affichage1.append("Ingrédients :\n (1) steak haché : 2\n (2) pain à hamburger : 2\n");
+		affichage1.append("Ingrédients :\n - pain à hamburger : 2\n - steak haché : 2\n");
 		affichage1.append("\nRéalisation :\nInstructions :\n1. Faire cuire le steak haché.\n");
 		assertEquals(viande.afficher(2), affichage1.toString());
 		viande.setTemps(65);
 		StringBuilder affichage2 = new StringBuilder();
 		affichage2.append("\tHamburger :\n");
 		affichage2.append("Pour 2 personnes\nTemps de réalisation : 1h05\n");
-		affichage2.append("Ingrédients :\n (1) steak haché : 2\n (2) pain à hamburger : 2\n");
+		affichage2.append("Ingrédients :\n - pain à hamburger : 2\n - steak haché : 2\n");
 		affichage2.append("\nRéalisation :\nInstructions :\n1. Faire cuire le steak haché.\n");
 		assertEquals(viande.afficher(2), affichage2.toString());
 		//Idem pour autres types
@@ -138,11 +138,11 @@ class RecetteTest {
 
 	@Test
 	void testRecetteRealisable() {
-		ListeAliments liste = new ListeAliments(2);
+		ListeAliments liste = new ListeAliments();
 		liste.ajouter(new Aliment("steak haché", "SANS", 1));
 		liste.ajouter(new Aliment("pain à hamburger", "SANS", 1));
 		viande.setListeIngredients(liste);
-		ListeAliments placard = new ListeAliments(2);
+		ListeAliments placard = new ListeAliments();
 		placard.ajouter(new Aliment("steak haché", "SANS", 3));
 		assertFalse(viande.recetteRealisable(placard));
 		placard.ajouter(new Aliment("pain à hamburger", "SANS", 1));
@@ -152,7 +152,7 @@ class RecetteTest {
 
 	@Test
 	void testRecetteContientAuMoinsUnIngredient() {
-		ListeAliments liste = new ListeAliments(2);
+		ListeAliments liste = new ListeAliments();
 		liste.ajouter(new Aliment("steak haché", "SANS", 1));
 		liste.ajouter(new Aliment("pain à hamburger", "SANS", 1));
 		viande.setListeIngredients(liste);

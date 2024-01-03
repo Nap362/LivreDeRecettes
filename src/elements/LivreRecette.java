@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.junit.platform.commons.util.ClassFilter;
+
 import recettes.KeyRecette;
 import recettes.Recette;
 
@@ -50,11 +52,12 @@ public class LivreRecette<T extends Recette> {
 	}
 
 	public String filtrerType(String type) {
+		String classType = "class recettes." + type;
 		StringBuilder affichage = new StringBuilder();
 		int indice = 1;
 		for (T recette : recettes) {
-			if (recette.getClass().toString().equals(type)) {
-				affichage.append("> " + indice + ". " + recette);
+			if (recette.getClass().toString().equals(classType)) {
+				affichage.append("> " + indice + ". " + recette.getNom() + "\n");
 				indice++;
 			}
 		}

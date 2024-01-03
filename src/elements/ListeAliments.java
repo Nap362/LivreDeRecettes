@@ -2,6 +2,7 @@ package elements;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ListeAliments {
 	private Set<Aliment> aliments;
@@ -18,8 +19,9 @@ public class ListeAliments {
 		aliments.add(aliment);
 	}
 
-	public void supprimer(Aliment aliment) {
-		aliments.remove(aliment);
+	public void supprimer(String aliment) {
+		Aliment alim = new KeyAliment(aliment);
+		aliments.remove(alim);
 	}
 
 	public String afficherListe() {
@@ -67,10 +69,8 @@ public class ListeAliments {
 	/* Affichage de la liste pour un certain nombre de personnes */
 	public String afficherListePersonne(int personnes) {
 		StringBuilder affichage = new StringBuilder();
-		int indice = 1;
 		for (Aliment aliment : aliments) {
-			affichage.append(" (" + indice + ") " + aliment.afficherQuantiteModifiee(personnes) + "\n");
-			indice++;
+			affichage.append(" - " + aliment.afficherQuantiteModifiee(personnes) + "\n");
 		}
 		return affichage.toString();
 	}
@@ -87,6 +87,7 @@ public class ListeAliments {
 				placard.ajouter(alimentAchete);
 			}
 		}
+		aliments.clear();
 	}
 
 	/* La liste contient au moins UN aliment d'une autre liste */
@@ -100,9 +101,9 @@ public class ListeAliments {
 
 	public boolean tousIngredientsDisponibles(ListeAliments listeAliments) {
 		boolean tousIngredientsDisponibles = true;
-		for (Aliment alimentCourant : aliments) {
+		for (Aliment alimentCourant : listeAliments.aliments){
 			Aliment aliment  = rechercherAliment(alimentCourant.getNom());
-			if (aliment ==null || !aliment.verifierQuantiteSuffisante(alimentCourant.getQuantite())) {
+			if (aliment == null || !aliment.verifierQuantiteSuffisante(alimentCourant.getQuantite())) {
 				tousIngredientsDisponibles = false;
 			}
 		}

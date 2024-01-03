@@ -15,7 +15,7 @@ class ControlModifierAlimentTest {
 	@BeforeEach
 	public void initialiserSituation() {
 		System.out.println("Initialisation...");
-		liste= new ListeAliments(10);
+		liste= new ListeAliments();
 		aliment = new Aliment("sucre", "G", 100);
 		liste.ajouter(aliment);
 	}
@@ -29,7 +29,7 @@ class ControlModifierAlimentTest {
 	@Test
 	void testModifierNom() {
 		ControlModifierAliment controlModifierAliment = new ControlModifierAliment(liste);
-		controlModifierAliment.modifierNom(0, "sucre de canne");
+		controlModifierAliment.modifierNom(aliment.getNom(), "sucre de canne");
 		assertNotEquals(aliment.getNom(), "sucre");
 		assertEquals(aliment.getNom(), "sucre de canne");
 	}
@@ -37,7 +37,7 @@ class ControlModifierAlimentTest {
 	@Test
 	void testModifierQuantite() {
 		ControlModifierAliment controlModifierAliment = new ControlModifierAliment(liste);
-		controlModifierAliment.modifierQuantite(0, 50);
+		controlModifierAliment.modifierQuantite(aliment.getNom(), 50);
 		assertNotEquals(aliment.getQuantite(), 100);
 		assertEquals(aliment.getQuantite(), 50);
 	}

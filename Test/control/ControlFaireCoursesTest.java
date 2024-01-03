@@ -15,8 +15,8 @@ class ControlFaireCoursesTest {
 	@BeforeEach
 	public void initialiserSituation() {
 		System.out.println("Initialisation...");
-		listeCourses = new ListeAliments(10);
-		placard = new ListeAliments(10);
+		listeCourses = new ListeAliments();
+		placard = new ListeAliments();
 	}
 
 	@Test
@@ -37,9 +37,9 @@ class ControlFaireCoursesTest {
 		listeCourses.ajouter(sucre2);
 		listeCourses.ajouter(pomme);
 		controlFaireCourses.faireCourses();
-		assertEquals(placard.rechercherAliment(pomme.getNom()), 2);
-		assertEquals(placard.getQuantiteAliment(0), 1150);
-		assertEquals(listeCourses.rechercherAliment(pomme.getNom()), -1);
+		assertEquals(placard.rechercherAliment(pomme.getNom()), pomme);
+		assertEquals(placard.getQuantiteAliment(sucre1.getNom()), 1150);
+		assertNull(listeCourses.rechercherAliment(pomme.getNom()));
 	}
 
 }

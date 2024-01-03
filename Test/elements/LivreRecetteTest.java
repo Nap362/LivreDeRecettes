@@ -12,23 +12,16 @@ import recettes.Vegetarien;
 import recettes.Viande;
 
 class LivreRecetteTest {
-	private Recette[] recettes;
-	
-	@BeforeEach
-	public void initialiserSituation() {
-		System.out.println("Initialisation...");
-		recettes = new Recette[4];
-	}
 
 	@Test
 	void testLivreRecette() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertNotNull(livreRecettes, "Constructeur ne renvoie pas null");
 	}
 
 	@Test
 	void testGetRecette() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		Viande viande = new Viande("Steak", 20, "BOEUF");
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
 		Vegetarien vege = new Vegetarien("Légumes", 20, true);
@@ -45,7 +38,7 @@ class LivreRecetteTest {
 
 	@Test
 	void testGetNbRecettes() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertEquals(livreRecettes.getNbRecettes(), 0);
 		Viande viande = new Viande("Steak", 20, "BOEUF");
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
@@ -60,29 +53,26 @@ class LivreRecetteTest {
 
 	@Test
 	void testAjouter() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertEquals(livreRecettes.getNbRecettes(), 0);
 		Viande viande = new Viande("Steak", 20, "BOEUF");
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
 		Vegetarien vege = new Vegetarien("Légumes", 20, true);
 		Dessert dessert = new Dessert("Gateau", 35);
-		Dessert dessert2 = new Dessert("Tarte", 35);
 		livreRecettes.ajouter(viande);
 		livreRecettes.ajouter(poisson);
 		livreRecettes.ajouter(vege);
 		livreRecettes.ajouter(dessert);
-		livreRecettes.ajouter(dessert2);
 		assertEquals(livreRecettes.rechercherNom(viande.getNom()), 0);
 		assertEquals(livreRecettes.rechercherNom(poisson.getNom()), 1);
 		assertEquals(livreRecettes.rechercherNom(vege.getNom()), 2);
 		assertEquals(livreRecettes.rechercherNom(dessert.getNom()), 3);
-		assertEquals(livreRecettes.rechercherNom(dessert2.getNom()), -1); //dessert2 n'a pas pu être ajouté
 
 	}
 
 	@Test
 	void testSupprimer() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertEquals(livreRecettes.getNbRecettes(), 0);
 		Viande viande = new Viande("Steak", 20, "BOEUF");
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
@@ -100,7 +90,7 @@ class LivreRecetteTest {
 
 	@Test
 	void testAfficherListe() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertEquals(livreRecettes.getNbRecettes(), 0);
 		Viande viande = new Viande("Steak", 20, "BOEUF");
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
@@ -121,7 +111,7 @@ class LivreRecetteTest {
 
 	@Test
 	void testRechercherNom() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertEquals(livreRecettes.getNbRecettes(), 0);
 		Viande viande = new Viande("Steak", 20, "BOEUF");
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
@@ -137,49 +127,49 @@ class LivreRecetteTest {
 	
 	@Test
 	void testFiltrerTemps() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertEquals(livreRecettes.getNbRecettes(), 0);
 		Viande viande = new Viande("Steak", 20, "BOEUF");
-		ListeAliments liste1 = new ListeAliments(2);
+		ListeAliments liste1 = new ListeAliments();
 		liste1.ajouter(new Aliment("steak", "G", 150));
 		viande.setListeIngredients(liste1);
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
-		ListeAliments liste2 = new ListeAliments(2);
+		ListeAliments liste2 = new ListeAliments();
 		liste2.ajouter(new Aliment("saumon", "G", 200));
 		liste2.ajouter(new Aliment("oignon", "SANS", 0.5));
 		poisson.setListeIngredients(liste2);
 		
 		livreRecettes.ajouter(viande);
 		livreRecettes.ajouter(poisson);
-		String affichage = "> 0. Steak";
+		String affichage = "> 1. Steak";
 		assertEquals(livreRecettes.filtrerTemps(25), affichage);
 		
 	}
 	
 	@Test
 	void testFiltrerType() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertEquals(livreRecettes.getNbRecettes(), 0);
 		Viande viande = new Viande("Steak", 20, "BOEUF");
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
 		
 		livreRecettes.ajouter(viande);
 		livreRecettes.ajouter(poisson);
-		String affichage = "> 1. Poisson au four";
+		String affichage = "> 1. Poisson au four\n";
 		assertEquals(livreRecettes.filtrerType("Poisson"), affichage);
 		
 	}
 
 	@Test
 	void testFiltrerEviterIngredients() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertEquals(livreRecettes.getNbRecettes(), 0);
 		Viande viande = new Viande("Steak", 20, "BOEUF");
-		ListeAliments liste1 = new ListeAliments(2);
+		ListeAliments liste1 = new ListeAliments();
 		liste1.ajouter(new Aliment("steak", "G", 150));
 		viande.setListeIngredients(liste1);
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
-		ListeAliments liste2 = new ListeAliments(2);
+		ListeAliments liste2 = new ListeAliments();
 		liste2.ajouter(new Aliment("saumon", "G", 200));
 		liste2.ajouter(new Aliment("oignon", "SANS", 0.5));
 		poisson.setListeIngredients(liste2);
@@ -187,28 +177,28 @@ class LivreRecetteTest {
 		livreRecettes.ajouter(viande);
 		livreRecettes.ajouter(poisson);
 		String[] eviter = {"saumon", "creme fraiche"};
-		String affichage = "> 0. Steak";
+		String affichage = "> 1. Steak";
 		assertEquals(livreRecettes.filtrerEviterIngredients(eviter), affichage);
 		
 	}
 
 	@Test
 	void testFiltrerRecettesRealisables() {
-		LivreRecette<Recette> livreRecettes = new LivreRecette<>(recettes, "Livre de recettes");
+		LivreRecette<Recette> livreRecettes = new LivreRecette<>("Livre de recettes");
 		assertEquals(livreRecettes.getNbRecettes(), 0);
 		Viande viande = new Viande("Steak", 20, "BOEUF");
-		ListeAliments liste1 = new ListeAliments(2);
+		ListeAliments liste1 = new ListeAliments();
 		liste1.ajouter(new Aliment("steak", "G", 150));
 		viande.setListeIngredients(liste1);
 		Poisson poisson = new Poisson("Poisson au four", 40, "SAUMON");
-		ListeAliments liste2 = new ListeAliments(2);
+		ListeAliments liste2 = new ListeAliments();
 		liste2.ajouter(new Aliment("saumon", "G", 200));
 		liste2.ajouter(new Aliment("oignon", "SANS", 0.5));
 		poisson.setListeIngredients(liste2);
 		
 		livreRecettes.ajouter(viande);
 		livreRecettes.ajouter(poisson);
-		ListeAliments placard = new ListeAliments(2);
+		ListeAliments placard = new ListeAliments();
 		placard.ajouter(new Aliment("oignon", "SANS", 2));
 		placard.ajouter(new Aliment("saumon", "G", 200));
 		String affichage = "> 1. Poisson au four";

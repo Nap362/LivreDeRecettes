@@ -14,7 +14,7 @@ class ControlAfficherListeAlimentsTest {
 	@BeforeEach
 	public void initialiserSituation() {
 		System.out.println("Initialisation...");
-		liste = new ListeAliments(20);
+		liste = new ListeAliments();
 	}
 
 	@Test
@@ -29,12 +29,12 @@ class ControlAfficherListeAlimentsTest {
 		Aliment aliment1 = new Aliment("sucre", "G", 100);
 		Aliment aliment2 = new Aliment("lait", "L", 0.55555);
 		liste.ajouter(aliment1);
-		assertEquals(controlAfficherListeAliments.afficherListe(), " (1) sucre : 100 g\n");
+		assertEquals(controlAfficherListeAliments.afficherListe(), " - sucre : 100 g\n");
 		liste.ajouter(aliment2);
-		assertNotEquals(controlAfficherListeAliments.afficherListe(), " (1) sucre : 100 g\n");
-		assertEquals(controlAfficherListeAliments.afficherListe(), " (1) sucre : 100 g\n (2) lait : 0.6 L\n");
-		assertNotEquals(controlAfficherListeAliments.afficherListe(), " (1) sucre : 100 G\n (2) lait : 0.6 L\n");
-		assertNotEquals(controlAfficherListeAliments.afficherListe(), " (1) sucre : 100.0 g\n (2) lait : 55555 L\n");
+		assertNotEquals(controlAfficherListeAliments.afficherListe(), " - sucre : 100 g\n");
+		assertEquals(controlAfficherListeAliments.afficherListe(), " - sucre : 100 g\n - lait : 0.6 L\n");
+		assertNotEquals(controlAfficherListeAliments.afficherListe(), " - lait : 0.6 L\n - sucre : 100 G\n");
+		assertNotEquals(controlAfficherListeAliments.afficherListe(), " - lait : 55555 L\n - sucre : 100.0 g\n");
 		
 	}
 

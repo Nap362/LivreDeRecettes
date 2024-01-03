@@ -10,6 +10,6 @@ public class ControlSupprimerAliment {
 	}
 	
 	public void supprimerAliment(String nomAliment) {
-		liste.supprimer(liste.rechercherAliment(nomAliment));
+		liste.supprimer(nomAliment);
 	}
 }

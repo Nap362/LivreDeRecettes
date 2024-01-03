@@ -16,19 +16,5 @@ public class Viande extends Recette {
 	public String getType() {
 		return typeViande.toString();
 	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj.getClass() == Viande.class) {
-			Viande recette = (Viande) obj;
-			return recette.nom == nom;
-		}
-		return false;
-	}
-	
-	@Override
-	public int hashCode() {
-		return 31 * nom.hashCode();
-	}
 
 }
