@@ -1,15 +1,21 @@
 package recettes;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import elements.ListeAliments;
 
-public abstract class Recette {
+public abstract class Recette implements Iterable<String>{
 	protected String nom;
 	protected int temps;
 	protected ListeAliments ingredients;
-	private List<String> instructions = new ArrayList<>();
+	private final int NOMBRE_INSTRUCTIONS_MAX = 30;
+	private String[] instructions = new String[NOMBRE_INSTRUCTIONS_MAX];
+	private int nombreInstructions;
+	private int nombreOperations = 0;
 
 	public String getNom() {
 		return nom;
@@ -22,6 +28,7 @@ public abstract class Recette {
 	public void setTemps(int temps) {
 		this.temps = temps;
 	}
+	
 
 	public String afficherDansListe() {
 		return nom;
@@ -30,24 +37,102 @@ public abstract class Recette {
 	public void setListeIngredients(ListeAliments ingredients) {
 		this.ingredients = ingredients;
 	}
+	
+
+	@Override
+	public Iterator<String> iterator() {
+		return new Iterateur();
+	}
+	
+	private class Iterateur implements Iterator<String> {
+		 private int indiceIterateur = 0;
+		 private int nombreOperationsReference = nombreOperations;
+		 private boolean nextEffectue = false;
+		 
+		 private void verificationConcurrence() {
+			 if(nombreOperationsReference!=nombreOperations) {
+				 throw new ConcurrentModificationException();
+			 }
+		 }
+		 
+		 @Override
+		 public boolean hasNext() {
+			 return indiceIterateur <nombreInstructions;
+		 }
+		 
+		 @Override
+		 public String next() {
+			 verificationConcurrence();
+			 if(hasNext()) {
+				 String instruction = instructions[indiceIterateur];
+				 nextEffectue =true;
+				 indiceIterateur++;
+				 return instruction;
+			 }else {
+				 throw new NoSuchElementException();
+			 }
+		 }
+		 
+		 @Override
+		 public void remove() {
+			 verificationConcurrence();
+			 if(nombreInstructions <1 || !nextEffectue) {
+				 throw new IllegalStateException();
+			 }
+			 for (int i = indiceIterateur - 1; i< nombreInstructions; i++) {
+				 instructions[i] = instructions[i +1];
+			 }
+			 nextEffectue = false;
+			 indiceIterateur--;
+			 nombreInstructions--;
+			 nombreOperations ++;
+			 nombreOperationsReference++;
+		 }
+	}
 
 	public void ajouterInstuction(String instruction) {
-		instructions.add(instruction);
+		if (nombreInstructions<NOMBRE_INSTRUCTIONS_MAX) {
+			instructions[nombreInstructions] = instruction;
+			nombreInstructions++;
+			nombreOperations++;
+		}else {
+			throw new IndexOutOfBoundsException();
+		}
 	}
 
 	public void supprimerInstuction(int indice) {
-		instructions.remove(indice);
+		Iterator<String> iterator = iterator();
+		for (int i = 0; i<=indice; i++) {
+			iterator.next();
+		}
+		iterator.remove();
 	}
 
 	public void insererInstuction(String instruction, int indice) {
-		instructions.add(indice, instruction);
+		if(nombreInstructions<NOMBRE_INSTRUCTIONS_MAX) {
+			int indiceCourant = -1;
+			for(Iterator<String> it = iterator(); it.hasNext();) {
+				String instructionCourante = it.next();
+				indice++;
+				if (indice==indiceCourant) {
+					instructions[indiceCourant]=instruction;
+					indice++;
+					instruction = instructionCourante;
+				}
+			}
+			ajouterInstuction(instruction);
+			
+		}else {
+			throw new IndexOutOfBoundsException();
+		}
 	}
 	
 	private String afficherInstructions() {
 		StringBuilder texte = new StringBuilder();
 		texte.append("Instructions :\n");
 		int indice = 1;
-		for (String instruction : instructions) {
+		for(Iterator<String> it = iterator(); it.hasNext();) {
+			String instruction = it.next();
 			texte.append(indice + ". " + instruction + "\n");
 			indice++;
 		}
